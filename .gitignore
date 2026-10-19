@@ -1,0 +1,14 @@
+# Personal learning context from the Devpost Learn skill pack (kept out of commits by default)
+/devpost/learner-profile.md
+
+# Local credentials (none are needed for this project; rule kept for safety)
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS / editor
+.DS_Store
