@@ -1,0 +1,69 @@
+/* Where's the Loo — street-sign plain. Colour only where it carries meaning. */
+:root {
+  --ink: #1a1a1a;
+  --paper: #ffffff;
+  --muted: #5c5c5c;
+  --line: #e3e3e3;
+  --open: #1b7f3b;
+  --open-bg: #e6f4ea;
+  --closed: #8a8a8a;
+  --closed-bg: #f0f0f0;
+  --unknown: #b26a00;
+  --unknown-bg: #fff3dc;
+  --you: #1d5fd1;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--paper); color: var(--ink);
+  font: 16px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans KR", Arial, sans-serif; }
+.wrap { max-width: 640px; margin: 0 auto; padding: 16px 16px 48px; }
+
+.head h1 { font-size: 30px; line-height: 1.1; margin: 8px 0 6px; letter-spacing: -0.01em; }
+.promise { margin: 0 0 14px; color: var(--muted); font-size: 16px; }
+.grey-word { color: var(--closed); background: var(--closed-bg); padding: 0 6px; border-radius: 6px; }
+
+.map { height: 40vh; min-height: 240px; border-radius: var(--radius); border: 1px solid var(--line); background: #f6f6f6; }
+
+.controls { display: flex; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; align-items: flex-start; }
+.btn { display: inline-block; cursor: pointer; font: inherit; font-weight: 600; font-size: 16px;
+  padding: 12px 16px; border-radius: 12px; border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink); }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn-primary { background: var(--ink); color: var(--paper); }
+.demo summary { list-style: none; }
+.demo summary::-webkit-details-marker { display: none; }
+.demo-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.demo-list button { font: inherit; font-size: 15px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--line); background: #fafafa; cursor: pointer; }
+
+.status { margin: 6px 0 12px; color: var(--muted); min-height: 1.4em; }
+.status.is-error { color: #a3261d; }
+
+.cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.card { display: grid; grid-template-columns: 40px 1fr auto; gap: 4px 12px; align-items: start;
+  padding: 14px; border: 1.5px solid var(--line); border-radius: var(--radius); background: var(--paper);
+  transition: background .2s, color .2s, border-color .2s; }
+.card .rank { grid-row: 1 / span 3; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--ink); color: var(--paper); font-weight: 700; font-size: 17px; }
+.card .name { font-size: 19px; font-weight: 700; line-height: 1.25; }
+.card .dist { grid-column: 3; grid-row: 1; font-size: 18px; font-weight: 700; white-space: nowrap; }
+.card .addr { grid-column: 2 / span 2; color: var(--muted); font-size: 14px; }
+.card .hours { grid-column: 2; font-size: 15px; }
+.card .hours .label { color: var(--muted); }
+.card .badge { grid-column: 3; grid-row: 3; align-self: end; font-size: 13px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; padding: 5px 10px; border-radius: 999px; white-space: nowrap; }
+
+.card.is-open .badge { color: var(--open); background: var(--open-bg); }
+.card.is-unknown .badge { color: var(--unknown); background: var(--unknown-bg); }
+.card.is-closed { background: var(--closed-bg); border-color: var(--closed-bg); color: var(--closed); }
+.card.is-closed .rank { background: var(--closed); }
+.card.is-closed .addr, .card.is-closed .hours .label { color: var(--closed); }
+.card.is-closed .badge { color: var(--paper); background: var(--closed); }
+
+/* Map pins: numbered circles drawn with CSS so they can turn grey. */
+.pin { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--ink); color: var(--paper); font-weight: 700; font-size: 15px;
+  border: 2px solid var(--paper); box-shadow: 0 1px 4px rgba(0,0,0,.35); transition: background .2s; }
+.pin.is-closed { background: var(--closed); }
+.pin-you { width: 18px; height: 18px; border-radius: 50%; background: var(--you); border: 3px solid var(--paper);
+  box-shadow: 0 0 0 3px rgba(29,95,209,.3); }
+
+.empty { padding: 18px; border: 1.5px dashed var(--line); border-radius: var(--radius); color: var(--muted); text-align: center; }

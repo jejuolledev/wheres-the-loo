@@ -1,1 +1,38 @@
-<!doctype html><title>Where's the Loo</title>placeholder
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Where's the Loo</title>
+  <meta name="description" content="The three nearest public toilets in Korea, and which ones are closed right now.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>Where's the Loo</h1>
+      <p class="promise">The three nearest public toilets in Korea — and which ones are <span class="grey-word">closed</span> right now.</p>
+    </header>
+
+    <div id="map" class="map" aria-label="Map of the three nearest toilets"></div>
+
+    <div class="controls">
+      <button id="locate" class="btn btn-primary" type="button">Use my location</button>
+      <details class="demo">
+        <summary class="btn">Try a demo spot</summary>
+        <div class="demo-list" id="demo-list"></div>
+      </details>
+    </div>
+
+    <p id="status" class="status" role="status" aria-live="polite">Tap a button above to find the three nearest toilets.</p>
+
+    <ol id="cards" class="cards"></ol>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
