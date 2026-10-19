@@ -1,0 +1,14 @@
+{
+  "name": "wheres-the-loo",
+  "version": "0.1.0",
+  "description": "The three nearest public toilets in Korea, and which ones are closed right now.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "stats": "node scripts/stats.mjs"
+  }
+}
