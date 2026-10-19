@@ -36,6 +36,8 @@ export function loadToilets(file = DATA_FILE, { factMinutes = 22 * 60, contrastM
   const toilets = [];
   let latestDate = '';
   const counts = { readable: 0, unknown: 0, openAtFact: 0, closedAtFact: 0, openAtContrast: 0, closedAtContrast: 0 };
+  const seen = new Set(); // exact duplicates (same name + coordinates) appear in the source; keep one
+  let duplicates = 0;
 
   for (const r of rows) {
     const d = r[COL.refDate] || '';
@@ -43,6 +45,9 @@ export function loadToilets(file = DATA_FILE, { factMinutes = 22 * 60, contrastM
     const lat = Number(r[COL.lat]);
     const lng = Number(r[COL.lng]);
     if (!Number.isFinite(lat) || !Number.isFinite(lng) || !inKorea(lat, lng)) continue;
+    const key = `${r[COL.name]}|${lat}|${lng}`;
+    if (seen.has(key)) { duplicates++; continue; }
+    seen.add(key);
     const hours = (r[COL.hours] || '').trim();
     const t = {
       type: r[COL.type] || '',
@@ -69,6 +74,7 @@ export function loadToilets(file = DATA_FILE, { factMinutes = 22 * 60, contrastM
     latestReferenceDate: latestDate,
     rows: rows.length,
     withCoords: toilets.length,
+    duplicatesDropped: duplicates,
     readableHours: counts.readable,
     unknownHours: counts.unknown,
     factMinutes,
