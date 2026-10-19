@@ -10,7 +10,7 @@ Source: `scope.md > The Unique Kernel`, `scope.md > The Core Loop`.
 
 ## The Core Journey
 1. The person opens the page. They see the title, a one-sentence promise, a map centred on Korea, and two buttons: **Use my location** and **Try a demo spot**.
-2. They tap **Use my location** and allow the browser prompt (or tap a demo spot such as *Seoul City Hall*).
+2. They tap **Use my location** and allow the browser prompt (or tap a demo spot such as *Jeonju Hanok Village*).
 3. Within a second, the map zooms to them, a blue "you" pin appears, and three numbered pins appear.
 4. Below the map, three cards appear in distance order. Each card shows: rank, name, straight-line distance in metres, the raw opening-hours text from the dataset, and a badge **Open**, **Closed** or **Hours unknown**.
 5. Closed cards are rendered grey (text and pin); open cards are white with a green badge; unknown cards are white with an amber badge.
@@ -58,7 +58,7 @@ Each toilet's free-text hours are classified for a given clock time into **open*
 - [ ] A "Now" link snaps the dial back to the current time.
 
 ### Demo spots
-- [ ] "Try a demo spot" offers three fixed locations (Seoul City Hall, Daegu Seomun Market, Busan Station) so the page can be demonstrated without GPS.
+- [ ] "Try a demo spot" offers three fixed locations (Jeonju Hanok Village, Hongdae in Seoul, Gwangju City Hall in Gyeonggi) so the page can be demonstrated without GPS. Each was chosen because at 22:00 at least one of its three nearest toilets is closed, so the grey flip is visible.
 
 ### The counted data fact
 - [ ] The footer shows one sentence with numbers produced by `scripts/stats.mjs` from the shipped CSV (e.g. how many toilets with readable hours are closed at 22:00), with the dataset name, snapshot date and source link.

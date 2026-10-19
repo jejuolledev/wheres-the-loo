@@ -29,6 +29,21 @@
     <p id="status" class="status" role="status" aria-live="polite">Tap a button above to find the three nearest toilets.</p>
 
     <ol id="cards" class="cards"></ol>
+
+    <section class="dial" aria-labelledby="dial-label">
+      <div class="dial-row">
+        <label id="dial-label" for="dial">What time is it? <strong id="dial-time">Now</strong></label>
+        <button id="dial-now" class="link" type="button">Now</button>
+      </div>
+      <input id="dial" type="range" min="0" max="1439" step="15" value="0" aria-describedby="dial-hint">
+      <p id="dial-hint" class="hint">Drag to another hour. Closed toilets turn grey. Nothing reloads.</p>
+    </section>
+
+    <footer class="foot">
+      <p id="fact" class="fact"></p>
+      <p class="source">Data: <a href="https://www.data.go.kr/data/15012892/standard.do">전국공중화장실표준데이터</a> (Korea public toilet standard dataset, data.go.kr), snapshot downloaded 2026-10-18. Distances are straight-line. Hours are read from free text; when they can't be read, the card says so. Map © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.</p>
+      <p class="source">Open source under the MIT License. Nothing you do here is stored.</p>
+    </footer>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

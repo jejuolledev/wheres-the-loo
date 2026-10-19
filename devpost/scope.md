@@ -23,7 +23,7 @@ Mood: a street sign, not a dashboard. Big readable type, three cards, one map, o
 "I want the kick to come from the data, not from a feature list." The owner has built map apps before; this is a chance to build the smallest possible one, from an empty folder, and let one counted number carry the story.
 
 ## What "Working" Looks Like
-Start the server, open `http://localhost:3000`, click "Use a demo location (Seoul City Hall)": three cards appear within a second with distances in metres and hours. Drag the time dial from 15:00 to 22:00: at least one card turns grey and its badge says "Closed". That grey flip is the "oh, that's cool" beat.
+Start the server, open `http://localhost:3000`, click "Try a demo spot → Jeonju Hanok Village": three cards appear within a second with distances in metres and hours. Drag the time dial from 15:00 to 22:00: at least one card turns grey and its badge says "Closed". That grey flip is the "oh, that's cool" beat.
 
 ## The POC Boundary
 - One page, one server file, no database, no accounts, no paid API.

@@ -1,5 +1,5 @@
 // Where's the Loo — page logic. Imports the same hours reader the server uses.
-import { parseHours, statusAt, minutesOf } from '/lib/hours.mjs';
+import { parseHours, statusAt, minutesOf, formatMinutes } from '/lib/hours.mjs';
 
 const DEMO_SPOTS = [
   { name: 'Jeonju Hanok Village', lat: 35.8150, lng: 127.1530 },
@@ -63,7 +63,8 @@ function drawMap(lat, lng) {
   for (const m of pinMarkers) m.remove();
   pinMarkers.length = 0;
   for (const r of results) {
-    const m = L.marker([r.lat, r.lng], { icon: pinIcon(r, statusAt(r.parsed, clockMinutes)) }).addTo(map);
+    // Nearest on top when two toilets share a spot (it happens in the data).
+    const m = L.marker([r.lat, r.lng], { icon: pinIcon(r, statusAt(r.parsed, clockMinutes)), zIndexOffset: (10 - r.rank) * 100 }).addTo(map);
     m.bindPopup(`<b>${escapeHtml(r.name)}</b><br>${escapeHtml(r.hours || '—')}`);
     pinMarkers.push(m);
   }
@@ -100,7 +101,51 @@ function fmtDistance(m) { return m < 1000 ? `${m} m` : `${(m / 1000).toFixed(1)}
 function setStatus(text, isError = false) { statusEl.textContent = text; statusEl.classList.toggle('is-error', isError); }
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
-// ---- Use my location (wired fully in the next slice) ----------------
+// ---- Use my location -------------------------------------------------
 locateBtn.addEventListener('click', () => {
-  setStatus('Location comes in the next build step. Try a demo spot.');
+  if (!('geolocation' in navigator)) { setStatus("This browser can't share a location. Try a demo spot.", true); return; }
+  locateBtn.disabled = true;
+  locateBtn.textContent = 'Locating…';
+  navigator.geolocation.getCurrentPosition(
+    (pos) => { resetLocateBtn(); find(pos.coords.latitude, pos.coords.longitude, 'you'); },
+    () => { resetLocateBtn(); setStatus("Couldn't get your location. Try a demo spot.", true); },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
+  );
 });
+function resetLocateBtn() { locateBtn.disabled = false; locateBtn.textContent = 'Use my location'; }
+
+// ---- Time dial -------------------------------------------------------
+const dial = $('dial');
+const dialTime = $('dial-time');
+let dialIsNow = true;
+
+function setClock(minutes, isNow) {
+  clockMinutes = minutes;
+  dialIsNow = isNow;
+  dial.value = String(minutes - (minutes % 15));
+  dialTime.textContent = (isNow ? 'Now · ' : '') + formatMinutes(minutes);
+  render();
+}
+dial.addEventListener('input', () => setClock(Number(dial.value), false));
+$('dial-now').addEventListener('click', () => setClock(minutesOf(), true));
+setClock(minutesOf(), true);
+setInterval(() => { if (dialIsNow) setClock(minutesOf(), true); }, 30000);
+
+// ---- Footer fact from /api/meta (same numbers as scripts/stats.mjs) --
+fetch('/api/meta').then((r) => r.json()).then((m) => {
+  const pct = (100 * m.closedAtFact / m.readableHours).toFixed(0);
+  $('fact').innerHTML = `In this dataset, at ${formatMinutes(m.factMinutes)} <span class="n">${m.closedAtFact.toLocaleString('en-US')}</span> of the ${m.readableHours.toLocaleString('en-US')} toilets with readable hours are closed — about ${pct}%. At ${formatMinutes(m.contrastMinutes)} it's ${m.closedAtContrast.toLocaleString('en-US')}.`;
+}).catch(() => { /* footer fact is optional */ });
+
+// ---- Deep link: ?lat=&lng=&at=HH:MM (used for the demo and headless checks)
+const q = new URLSearchParams(location.search);
+if (q.has('at') && /^\d{1,2}:\d{2}$/.test(q.get('at'))) {
+  const [h, m] = q.get('at').split(':').map(Number);
+  setClock(h * 60 + m, false);
+}
+if (q.has('spot')) {
+  const spot = DEMO_SPOTS[Number(q.get('spot'))];
+  if (spot) find(spot.lat, spot.lng, spot.name);
+} else if (q.has('lat') && q.has('lng')) {
+  find(Number(q.get('lat')), Number(q.get('lng')), 'the link');
+}

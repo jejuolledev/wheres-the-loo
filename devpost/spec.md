@@ -38,7 +38,7 @@ PRD ref: `prd.md > The Core Journey`.
 ## Where It Runs and How Someone Tries It
 - Runtime: a local Node process serving a browser page. No API keys, no environment variables.
 - Start: `node src/server.mjs` (or `npm start`) → prints `Where's the Loo → http://localhost:3000` once the CSV is loaded.
-- Open `http://localhost:3000` in a browser. For the demo video, click **Try a demo spot → Seoul City Hall**, then drag the time dial to 22:00.
+- Open `http://localhost:3000` in a browser. For the demo video, click **Try a demo spot → Jeonju Hanok Village**, then drag the time dial to 22:00 (or open `http://localhost:3000/?spot=0&at=22:00`).
 - Tests: `npm test` (runs `node --test test/`).
 - Statistics for the README footer fact: `node scripts/stats.mjs`.
 - Deployment: none (optional per the rules; not chosen).
@@ -123,7 +123,7 @@ wheres-the-loo/
 - **Straight-line distance** instead of walking routes — no routing API; three candidates within a few hundred metres are enough to choose. The fuller version would call a routing service per card.
 - **First readable range** instead of weekday/weekend logic — most rows have one range; day-tagged rows are a minority. The fuller version would pick the range by today's day type.
 - **Shipped CSV snapshot** instead of live download — reproducible, offline, and the hackathon video does not depend on the portal. The fuller version would refresh from the portal on a schedule.
-- **Demo spots** instead of address search — search needs a geocoding API; three fixed spots cover the video.
+- **Demo spots** instead of address search — search needs a geocoding API; three fixed spots cover the video. A `?spot=&at=HH:MM` (or `?lat=&lng=`) deep link exists so the same state can be opened in a headless browser for checks.
 
 ## Decisions and Open Issues
 - **Zero dependencies (owner's choice)** — runs with `node` alone; tradeoff: hand-written CSV parsing and static file serving (small, tested).
