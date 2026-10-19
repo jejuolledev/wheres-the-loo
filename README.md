@@ -71,14 +71,14 @@ The map needs internet access for the Leaflet library and OpenStreetMap tiles; t
 - **Dataset:** 전국공중화장실표준데이터 (Korea public toilet standard dataset), Korean Public Data Portal — https://www.data.go.kr/data/15012892/standard.do
 - **Snapshot:** downloaded 2026-10-18 as the portal's standard-dataset CSV; shipped unchanged as [`data/toilets.csv`](data/toilets.csv) (SHA-256 in [`data/README.md`](data/README.md)). The latest reference date inside the file is 2020-06-08, so treat hours as indicative.
 - **Terms:** the portal lists the dataset's usage scope as "이용허락범위: 제한 없음" (no restriction on use).
-- **What the app keeps:** rows with coordinates inside Korea (lat 33–39, lng 124–132), exact duplicates (same name and coordinates) kept once → 24,321 toilets. "Readable hours" means `parseHours` returned `always` or `range`; everything else is shown as *Hours unknown*.
+- **What the app keeps:** rows with coordinates inside Korea (lat 33–39, lng 124–132), exact duplicates (same name and coordinates) kept once → 24,321 toilets. "Readable hours" means `parseHours` returned `always` or `range`; everything else is shown as *Hours unknown*. Always-open words include 연중무휴 ("no closing days"), which the dataset uses for 4,393 of those toilets; the app treats it as open at any hour.
 - **Known simplification:** when a string lists weekday and weekend ranges, the first readable range is used (see `devpost/spec.md > What Was Simplified and Why`).
 
 ## How this was built (the honest version)
 
 1. Empty folder → `npx skills add challengepost/learn-ai-basics --all -y` (the six skills are committed under `.agents/skills/`, with `skills-lock.json`).
 2. In Claude Code, the agent read each skill in order — `1-start`, `2-scope`, `3-prd`, `4-spec`, `5-build` — and wrote `devpost/scope.md`, `prd.md`, `spec.md` and `checklist.md` from the skill pack's templates. The skills are designed as a live interview; here the interview answers came from the project owner's written brief for this hackathon (the idea, the "closed = grey" kick, the no-paid-API and no-copied-code constraints), and the owner reviews the documents before submission. `devpost/learner-profile.md` is git-ignored as the skill pack recommends.
-3. The build followed the checklist's four slices in order, each verified (tests, curl, a headless-Chrome screenshot) and committed. The plan changed three times during the build; each change is recorded under `devpost/checklist.md > Revisions`. The one that mattered most: the planned demo spot (Seoul City Hall) turned out to have three subway toilets open until 01:00, so the grey flip never showed — the data chose the demo spots.
+3. The build followed the checklist's four slices in order, each verified (tests, curl, a headless-Chrome screenshot) and committed. The plan changed four times during the build; each change is recorded under `devpost/checklist.md > Revisions`. The one that mattered most: the planned demo spot (Seoul City Hall) turned out to have three subway toilets open until 01:00, so the grey flip never showed — the data chose the demo spots.
 4. No code was reused from the owner's earlier projects. Pre-existing work incorporated: the public dataset above, Leaflet, OpenStreetMap tiles.
 
 ## License

@@ -134,7 +134,7 @@ setInterval(() => { if (dialIsNow) setClock(minutesOf(), true); }, 30000);
 // ---- Footer fact from /api/meta (same numbers as scripts/stats.mjs) --
 fetch('/api/meta').then((r) => r.json()).then((m) => {
   const pct = (100 * m.closedAtFact / m.readableHours).toFixed(0);
-  $('fact').innerHTML = `In this dataset, at ${formatMinutes(m.factMinutes)} <span class="n">${m.closedAtFact.toLocaleString('en-US')}</span> of the ${m.readableHours.toLocaleString('en-US')} toilets with readable hours are closed — about ${pct}%. At ${formatMinutes(m.contrastMinutes)} it's ${m.closedAtContrast.toLocaleString('en-US')}.`;
+  $('fact').innerHTML = `In this dataset, at ${formatMinutes(m.factMinutes)}, <span class="n">${m.closedAtFact.toLocaleString('en-US')}</span> of the ${m.readableHours.toLocaleString('en-US')} toilets with readable hours are closed — about ${pct}%. At ${formatMinutes(m.contrastMinutes)} it's ${m.closedAtContrast.toLocaleString('en-US')}.`;
 }).catch(() => { /* footer fact is optional */ });
 
 // ---- Deep link: ?lat=&lng=&at=HH:MM (used for the demo and headless checks)
@@ -147,5 +147,5 @@ if (q.has('spot')) {
   const spot = DEMO_SPOTS[Number(q.get('spot'))];
   if (spot) find(spot.lat, spot.lng, spot.name);
 } else if (q.has('lat') && q.has('lng')) {
-  find(Number(q.get('lat')), Number(q.get('lng')), 'the link');
+  find(Number(q.get('lat')), Number(q.get('lng')), 'this link\'s coordinates');
 }

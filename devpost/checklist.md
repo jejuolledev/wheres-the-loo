@@ -76,3 +76,4 @@ Activity mode: Recap + reference map.
 - Exact duplicate rows dropped in the loader (2,705 rows with the same name and coordinates) — the first API call for Daegu Seomun Market returned the same toilet twice; counts in `scripts/stats.mjs`, `data/README.md` and the API test were updated (24,321 toilets, 22,500 with readable hours, 7,754 closed at 22:00).
 - `?spot=&at=HH:MM` deep link added to the page — needed so the finished state could be opened in headless Chrome for a screenshot check without a visible window; it also makes the demo video repeatable.
 - The hours regex gained a lookahead that rejects month/day spans — the stats run flagged "하절기(7~9월)" being read as 07:00~09:00.
+- After the build (QA, 2026-10-20): a malformed URL such as `/%` threw `URIError` inside `decodeURIComponent` and took the whole process down; `safeJoin` now catches it and the server answers 400. The existing static-route test covers it (still 14 tests).

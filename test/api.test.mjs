@@ -41,7 +41,7 @@ test('GET /api/meta exposes the counted dataset facts', async () => {
   assert.equal(meta.openAtFact + meta.closedAtFact, meta.readableHours);
 });
 
-test('static: / serves the page and /lib/hours.mjs is JavaScript; path escape is refused', async () => {
+test('static: / serves the page and /lib/hours.mjs is JavaScript; path escape and malformed URL are refused', async () => {
   const page = await fetch(`${base}/`);
   assert.equal(page.status, 200);
   const lib = await fetch(`${base}/lib/hours.mjs`);
@@ -49,4 +49,6 @@ test('static: / serves the page and /lib/hours.mjs is JavaScript; path escape is
   assert.match(lib.headers.get('content-type'), /javascript/);
   const esc = await fetch(`${base}/..%2F..%2Fpackage.json`);
   assert.notEqual(esc.status, 200);
+  const bad = await fetch(`${base}/%`);
+  assert.equal(bad.status, 400, 'malformed percent-encoding is a 400, not a crash');
 });

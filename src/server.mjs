@@ -37,9 +37,11 @@ function sendFile(res, file) {
   });
 }
 
-/** Resolve a URL path to a file inside root, or null if it escapes root. */
+/** Resolve a URL path to a file inside root, or null if it escapes root or is malformed. */
 function safeJoin(root, urlPath) {
-  const p = path.normalize(path.join(root, decodeURIComponent(urlPath)));
+  let decoded;
+  try { decoded = decodeURIComponent(urlPath); } catch { return null; }
+  const p = path.normalize(path.join(root, decoded));
   return p.startsWith(root + path.sep) || p === root ? p : null;
 }
 

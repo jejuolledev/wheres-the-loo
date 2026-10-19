@@ -14,7 +14,7 @@ export function haversineM(a, b) {
 /**
  * The n items nearest to point, ascending by distance.
  * Each result is a copy of the item with distanceM added.
- * Linear scan: 27k rows takes a few milliseconds, which is fine for this proof of concept.
+ * Linear scan: 24k rows takes a few milliseconds, which is fine for this proof of concept.
  */
 export function nearest(items, point, n = 3) {
   const best = []; // kept sorted ascending, length <= n
