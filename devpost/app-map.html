@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where's the Loo — App Map</title>
+<style>
+  body { font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #1a1a1a; background: #fff; margin: 0; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 26px; margin: 0 0 4px; } h2 { font-size: 19px; margin: 28px 0 8px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+  pre { background: #f5f5f5; padding: 10px 12px; border-radius: 8px; overflow: auto; }
+  code { background: #f0f0f0; padding: 1px 5px; border-radius: 4px; }
+  .muted { color: #5c5c5c; }
+  details { border: 1px solid #e3e3e3; border-radius: 10px; padding: 8px 12px; margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  svg text { font-family: inherit; font-size: 13px; }
+  ol li { margin: 6px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Where's the Loo — App Map</h1>
+  <p class="muted">A take-home guide to the finished code. Snapshot of the repository at the end of the build; it can drift as the code changes. Run again with <code>node src/server.mjs</code> and open <code>http://localhost:3000</code>.</p>
+
+  <h2>What it is, in one paragraph</h2>
+  <p>One page that shows the three nearest public toilets in Korea and greys out the ones that are closed at the chosen time. Four pieces: a shipped CSV of 33,820 toilets, an <em>hours reader</em> that turns free-text opening hours into open / closed / unknown, a one-file Node server that answers "which three are nearest?", and the page that draws pins, cards and a time dial.</p>
+
+  <h2>One action, end to end: "tap a demo spot, drag the dial to 22:00"</h2>
+  <svg viewBox="0 0 720 230" width="100%" role="img" aria-label="Flow from the page to the server and back">
+    <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#1a1a1a"/></marker></defs>
+    <rect x="10" y="20" width="200" height="70" rx="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="110" y="48" text-anchor="middle" font-weight="700">public/app.js</text>
+    <text x="110" y="70" text-anchor="middle">find(lat, lng) → fetch</text>
+    <rect x="260" y="20" width="200" height="70" rx="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="360" y="48" text-anchor="middle" font-weight="700">src/server.mjs</text>
+    <text x="360" y="70" text-anchor="middle">GET /api/nearest</text>
+    <rect x="510" y="20" width="200" height="70" rx="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="610" y="48" text-anchor="middle" font-weight="700">src/lib/geo.mjs</text>
+    <text x="610" y="70" text-anchor="middle">nearest(toilets, point, 3)</text>
+    <line x1="210" y1="55" x2="258" y2="55" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#a)"/>
+    <line x1="460" y1="55" x2="508" y2="55" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#a)"/>
+    <rect x="10" y="140" width="200" height="70" rx="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="110" y="168" text-anchor="middle" font-weight="700">src/lib/hours.mjs</text>
+    <text x="110" y="190" text-anchor="middle">statusAt(parseHours(h), 22*60)</text>
+    <rect x="260" y="140" width="200" height="70" rx="10" fill="#f0f0f0" stroke="#8a8a8a" stroke-width="1.5"/>
+    <text x="360" y="168" text-anchor="middle" font-weight="700" fill="#8a8a8a">render() → card.is-closed</text>
+    <text x="360" y="190" text-anchor="middle" fill="#8a8a8a">grey card + grey pin</text>
+    <rect x="510" y="140" width="200" height="70" rx="10" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/>
+    <text x="610" y="168" text-anchor="middle" font-weight="700">data/toilets.csv</text>
+    <text x="610" y="190" text-anchor="middle">loaded once by toilets.mjs</text>
+    <line x1="610" y1="140" x2="610" y2="92" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#a)"/>
+    <path d="M360,90 C360,120 110,110 110,138" fill="none" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#a)"/>
+    <line x1="210" y1="175" x2="258" y2="175" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#a)"/>
+  </svg>
+
+  <h2>Reference route (three stops)</h2>
+  <p class="muted">Labelled a reference route: it was prepared from the finished code, not walked interactively with the learner.</p>
+  <ol>
+    <li><strong>Input</strong> — <code>public/app.js</code>, search for <code>async function find(</code>. The demo-spot button (or the Geolocation callback) calls it with a latitude and longitude; it fetches <code>/api/nearest</code> and stores the three results with their parsed hours.</li>
+    <li><strong>Logic</strong> — <code>src/lib/hours.mjs</code>, <code>parseHours</code> and <code>statusAt</code>. The regex <code>RANGE_RE</code> finds time ranges; <code>statusAt</code> compares minutes-since-midnight with the first range, including overnight spans. Its tests: <code>test/hours.test.mjs</code>.</li>
+    <li><strong>Result</strong> — <code>public/app.js</code>, <code>function render()</code>. Builds the three cards with class <code>is-open</code> / <code>is-closed</code> / <code>is-unknown</code> and re-sets each pin's icon; <code>public/style.css</code> under <code>.card.is-closed</code> is where "grey" is defined.</li>
+  </ol>
+
+  <h2>To change this, start here</h2>
+  <details><summary>Show more than three toilets</summary><p><code>public/app.js</code> → the fetch URL in <code>find()</code> uses <code>n=3</code>; the server caps <code>n</code> at 10 in <code>src/server.mjs</code>.</p></details>
+  <details><summary>Add a demo spot</summary><p><code>public/app.js</code> → the <code>DEMO_SPOTS</code> array at the top. Check first with <code>curl 'localhost:3000/api/nearest?lat=…&amp;lng=…'</code> that the spot shows a grey card at the hour you want to demo.</p></details>
+  <details><summary>Teach the hours reader a new spelling</summary><p><code>src/lib/hours.mjs</code> → <code>ALWAYS_WORDS</code> for always-open words, <code>RANGE_RE</code> for new range shapes. Add a case to <code>test/hours.test.mjs</code> first, then run <code>npm test</code> and <code>node scripts/stats.mjs</code> to see how many rows change.</p></details>
+  <details><summary>Change what counts as "closed" in the footer fact</summary><p><code>src/lib/toilets.mjs</code> → <code>factMinutes</code> (22:00) and <code>contrastMinutes</code> (15:00) in <code>loadToilets()</code>; the page reads them from <code>/api/meta</code>.</p></details>
+  <details><summary>Change colours</summary><p><code>public/style.css</code> → the tokens under <code>:root</code>.</p></details>
+
+  <h2>A practice to reuse</h2>
+  <p>Test the risky data path before the UI exists. The only real unknown in this project was the free-text hours column. Slice 1 of <code>devpost/checklist.md</code> built <code>parseHours</code>, its tests, and <code>scripts/stats.mjs</code> before any HTML. Running the stats script against all 24,321 rows immediately exposed two problems the unit tests had not: month spans like <code>하절기(7~9월)</code> being read as 07:00~09:00, and exact duplicate rows. Both were fixed while the fix was one file wide. On another project: whatever column or API response you are least sure about, write the parser and a counting script for it first, and let its numbers decide the demo.</p>
+
+  <h2>Run it again</h2>
+  <pre>node src/server.mjs      # http://localhost:3000
+npm test                 # 14 tests
+node scripts/stats.mjs   # the footer numbers</pre>
+</main>
+</body>
+</html>

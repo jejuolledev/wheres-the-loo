@@ -62,13 +62,13 @@ Build mode: fast
 
 - [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
 - [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
-- [ ] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
+- [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
-Activity and evidence: [pending]
-Route and stops: [pending]
-Edit outcome: [pending]
-Reflection: [pending]
-Activity mode: [pending]
+Activity and evidence: Brief recap prepared by the agent (no live session with the learner yet). Evidence: `test/hours.test.mjs` (7 parser cases), `scripts/stats.mjs` output quoted in README.md, `devpost/checklist.md > Revisions` (the stats run exposed the month-span false positive and the duplicate rows).
+Route and stops: Reference route only, in `devpost/app-map.html`: `public/app.js` `find()` → `src/lib/hours.mjs` `parseHours`/`statusAt` → `public/app.js` `render()` + `public/style.css` `.card.is-closed`. Not toured interactively.
+Edit outcome: Not applicable (no live session).
+Reflection: Not yet offered — to be done when the owner reviews.
+Activity mode: Recap + reference map.
 
 ## Revisions
 
