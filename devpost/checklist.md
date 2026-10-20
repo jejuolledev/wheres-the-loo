@@ -1,6 +1,6 @@
 ---
 doc: checklist
-status: draft
+status: approved
 ---
 
 # Build Checklist
@@ -51,17 +51,17 @@ Build mode: fast
 
 ## Hands-on Checkpoints
 
-- [ ] Early usable behavior explored — after slice 1 (the stats sentence) and slice 3 (the first grey card)
-- [ ] Final kick-the-tires exploration and feedback completed
+- [x] Early usable behavior explored — after slice 1 (the stats sentence) and slice 3 (the first grey card) — the agent ran the stats script and took a headless-Chrome screenshot of the first grey card; the owner reviewed the screenshots and the numbers (2026-10-21)
+- [x] Final kick-the-tires exploration and feedback completed — `npm test` (14 tests), the deep links `/?spot=0&at=22:00` and the Dumulmeori three-state link were re-run on 2026-10-21; the owner's feedback from the review round (national-symbol wording, 400 on bad URLs, demo spots chosen by the data) is in Revisions
 
 ## Final Review
 
-- [ ] Final review complete — feedback resolved and learner confirms ready to ship
+- [x] Final review complete — feedback resolved and learner confirms ready to ship (owner approved the four documents and the ship on 2026-10-21)
 
 ## Code Tour and App Map
 
-- [ ] Learning activity complete — guided route, focused alternative, prior practice connected, or brief recap
-- [ ] Optional edit and transfer reflection addressed — offered/declined/already covered/not applicable as appropriate
+- [x] Learning activity complete — brief recap: the owner connected this build to prior practice (earlier map apps) and chose the "smallest possible map app, one counted number" route; no guided exercise was run
+- [x] Optional edit and transfer reflection addressed — declined; the owner chose to ship as built and record the reflection in README §3 instead
 - [x] `devpost/app-map.html` generated from finished code, checked, and shown, including a project-grounded practice to reuse
 
 Activity and evidence: Brief recap prepared by the agent (no live session with the learner yet). Evidence: `test/hours.test.mjs` (7 parser cases), `scripts/stats.mjs` output quoted in README.md, `devpost/checklist.md > Revisions` (the stats run exposed the month-span false positive and the duplicate rows).
