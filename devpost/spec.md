@@ -132,3 +132,9 @@ wheres-the-loo/
 - **Numbered CSS pins (implementation detail)** — so pins can turn grey; tradeoff: slightly more CSS than default markers.
 - **The one real uncertainty:** how many of the 589 distinct hours strings the parser can read, and whether "first readable range" misclassifies day-tagged rows. Agreed check: slice 1 ships `scripts/stats.mjs`, which prints the readable share and the 22:00 counts; the README quotes those numbers and the day-tag simplification is stated next to them. Evidence lives in `test/hours.test.mjs` and the stats output.
 - Carried from `prd.md > Open Questions`: footer wording — settled after the stats script runs; km display — one decimal.
+
+## Sharing
+
+- Repository (MIT): https://github.com/jejuolledev/wheres-the-loo
+- Demo video (2:16, YouTube, public): https://youtu.be/fWILw1hEd04
+- Devpost: Build With AI: Basics, submitted 2026-10-21 (KST)
